@@ -1,6 +1,7 @@
 import pandas as pd
 import gensim
 from gensim import corpora
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # The LDA parameters are "α = 50 / k and £ = 0.1".
 
@@ -34,3 +35,17 @@ print('LDA可视化结果保存为html文件')
 pyLDAvis.display(vis)
 pyLDAvis.save_html(vis, 'lda_visualization.html')
 print('LDA模型训练完成')
+
+# 5. 构造 TF-IDF
+tf_idf_vectorizer = TfidfVectorizer()
+tf_idf = tf_idf_vectorizer.fit_transform(pd.DataFrame(texts))
+
+print(pd.DataFrame(texts))
+# 特征词列表
+feature_names = tf_idf_vectorizer.get_feature_names_out()
+# 特征词 TF-IDF 矩阵
+matrix = tf_idf.toarray()
+feature_names_df = pd.DataFrame(matrix,columns=feature_names)
+print('TF-IDF矩阵')
+print(feature_names_df)
+feature_names_df
